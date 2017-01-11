@@ -7,7 +7,7 @@ angular.module('nibs.config', [])
     .constant('STATUS_LABELS', [
         'Forastero',
         'Trinitario',
-        'Criollo'
+        'VIP'
     ])
 
     .constant('STATUS_DESCRIPTIONS', [
