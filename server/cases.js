@@ -33,7 +33,7 @@ function createCase(req, res, next) {
             // case is a reserved word. using _case instead.
             var _case = nforce.createSObject('Case');
             _case.set('contactId', user.sfid);
-            _case.set('subject', req.body.subject);
+            _case.set('subject', req.body.description);
             _case.set('description', req.body.description);
             _case.set('origin', 'Web');
             _case.set('status', 'New');
