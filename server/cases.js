@@ -35,6 +35,7 @@ function createCase(req, res, next) {
             _case.set('description', req.body.description);
             _case.set('origin', 'Web');
             _case.set('status', 'New');
+            console.log("_case: " + _case);
 
             org.insert({ sobject: _case}, function(err, resp){
                 if (err) {
