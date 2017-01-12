@@ -33,34 +33,25 @@ function createCase(req, res, next) {
             // case is a reserved word. using _case instead.
             var _case = nforce.createSObject('Case');
             _case.set('contactId', user.sfid);
-            _case.set('subject', 'Support Case from Loyalty App');
+            _case.set('subject', req.body.subject);
             _case.set('description', req.body.description);
             _case.set('origin', 'Web');
             _case.set('status', 'New');
 
-            org.insert({ sobject: _case}, function(err, resp){
+            org.authenticate({username: userName, password: password}, function(err) {
                 if (err) {
-                    console.log('First case insert failed: ' + JSON.stringify(err));
-                    org.authenticate({username: userName, password: password}, function(err) {
+                    console.log('Authentication failed: ' + JSON.stringify(err));
+                    return next(err);
+                } else {
+                    org.insert({ sobject: _case}, function(err, resp) {
                         if (err) {
-                            console.log('Authentication failed: ' + JSON.stringify(err));
+                            console.log('Case insert failed: ' + JSON.stringify(err));
                             return next(err);
                         } else {
-                            // retry
-                            org.insert({ sobject: _case}, function(err, resp) {
-                                if (err) {
-                                    console.log('Second case insert failed: ' + JSON.stringify(err));
-                                    return next(err);
-                                } else {
-                                    console.log('Second case insert worked');
-                                    return res.send('ok');
-                                }
-                            });
+                            console.log('Case insert worked');
+                            return res.send('ok');
                         }
-                    })
-                } else {
-                    console.log('First case insert worked');
-                    res.send('ok');
+                    });
                 }
             });
         })
