@@ -36,7 +36,7 @@ function createCase(req, res, next) {
             _case.set('origin', 'Web');
             _case.set('status', 'New');
 
-            org.insert({ sobject: _case}, function(err, resp){
+            org.insert({ sobject: _case}, function(err, res){
                 if (err) {
                     console.log('First case insert failed: ' + JSON.stringify(err));
                     org.authenticate({username: userName, password: password}, function(err) {
@@ -45,7 +45,7 @@ function createCase(req, res, next) {
                             return next(err);
                         } else {
                             // retry
-                            org.insert({ sobject: _case}, function(err, resp) {
+                            org.insert({ sobject: _case}, function(err, res) {
                                 if (err) {
                                     console.log('Second case insert failed: ' + JSON.stringify(err));
                                     return next(err);
